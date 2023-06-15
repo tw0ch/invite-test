@@ -42,53 +42,56 @@ class _MainPageState extends State<MainPage> {
 
   Widget _bottomNavigationBar() {
     return SafeArea(
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-        ),
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(AppIcons.home),
-              label: 'Главная',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(AppIcons.search),
-              label: 'Поиск',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(AppIcons.basket),
-              label: 'Корзина',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(AppIcons.account),
-              label: 'Аккаунт',
-            ),
-          ],
-          onTap: (index) => _onItemTaped(
-            context,
-            NavigatorRoute.values[index],
+      child: SizedBox(
+        height: 68.6,
+        child: Theme(
+          data: Theme.of(context).copyWith(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
           ),
-          currentIndex: _currentIndex,
-          elevation: 0,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: AppColors.color3364E0,
-          unselectedItemColor: AppColors.colorA5A9B2,
-          selectedFontSize: 10,
-          unselectedFontSize: 10,
-          selectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontFamily: 'SF Pro Display',
-            fontWeight: FontWeight.w500,
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(AppIcons.home),
+                label: 'Главная',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(AppIcons.search),
+                label: 'Поиск',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(AppIcons.basket),
+                label: 'Корзина',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(AppIcons.account),
+                label: 'Аккаунт',
+              ),
+            ],
+            onTap: (index) => _onItemTaped(
+              context,
+              NavigatorRoute.values[index],
+            ),
+            currentIndex: _currentIndex,
+            elevation: 0,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedItemColor: AppColors.color3364E0,
+            unselectedItemColor: AppColors.colorA5A9B2,
+            selectedFontSize: 10,
+            unselectedFontSize: 10,
+            selectedLabelStyle: const TextStyle(
+              fontSize: 10,
+              fontFamily: 'SF Pro Display',
+              fontWeight: FontWeight.w500,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 10,
+              fontFamily: 'SF Pro Display',
+              fontWeight: FontWeight.w500,
+            ),
+            iconSize: 24,
           ),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontFamily: 'SF Pro Display',
-            fontWeight: FontWeight.w500,
-          ),
-          iconSize: 24,
         ),
       ),
     );

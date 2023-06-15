@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: GoRouter(
         initialLocation: Routes.home,
         navigatorKey: _rootNavigatorKey,
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
                 path: Routes.search,
                 pageBuilder: (context, state) => MaterialPage<void>(
                   key: state.pageKey,
-                  child: Placeholder(),
+                  child: Container(),
                 ),
               ),
               GoRoute(
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
                 path: Routes.account,
                 pageBuilder: (context, state) => MaterialPage<void>(
                   key: state.pageKey,
-                  child: Placeholder(),
+                  child: Container(),
                 ),
               ),
             ],
