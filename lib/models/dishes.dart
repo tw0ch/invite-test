@@ -64,13 +64,13 @@ class Dish {
     };
 }
 
-enum Teg {EMPTY, TEG, PURPLE, FLUFFY}
+enum Teg {ALL, FISH, SALADS, RICE}
 
 final tegValues = EnumValues({
-    "Все меню": Teg.EMPTY,
-    "С рыбой": Teg.FLUFFY,
-    "Салаты": Teg.PURPLE,
-    "С рисом": Teg.TEG
+    "Все меню": Teg.ALL,
+    "С рыбой": Teg.FISH,
+    "Салаты": Teg.SALADS,
+    "С рисом": Teg.RICE
 });
 
 class EnumValues<T> {
