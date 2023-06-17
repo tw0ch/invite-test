@@ -9,18 +9,18 @@ Categories categoriesFromJson(String str) => Categories.fromJson(json.decode(str
 String categoriesToJson(Categories data) => json.encode(data.toJson());
 
 class Categories {
-    List<Category> ategories;
+    List<Category> categories;
 
     Categories({
-        required this.ategories,
+        required this.categories,
     });
 
     factory Categories.fromJson(Map<String, dynamic> json) => Categories(
-        ategories: List<Category>.from(json["сategories"].map((x) => Category.fromJson(x))),
+        categories: List<Category>.from(json["сategories"].map((x) => Category.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "сategories": List<dynamic>.from(ategories.map((x) => x.toJson())),
+        "сategories": List<dynamic>.from(categories.map((x) => x.toJson())),
     };
 }
 

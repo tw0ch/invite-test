@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../ui/buttons.dart';
-import '../../../utils/app_icons_icons.dart';
+import '../../ui/buttons.dart';
+import '../../utils/app_icons_icons.dart';
 
 class DetailPage extends Dialog {
   const DetailPage({Key? key}) : super(key: key);

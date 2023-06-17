@@ -10,12 +10,10 @@ import '../../../utils/app_icons_icons.dart';
 
 class CategoryPage extends StatelessWidget {
   final String title;
-  final Dishes dishes;
 
   CategoryPage({
     super.key,
     required this.title,
-    required this.dishes,
   });
 
   final List<String> tags =
