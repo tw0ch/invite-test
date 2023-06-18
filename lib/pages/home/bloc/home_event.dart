@@ -7,10 +7,8 @@ class HomeLoadingEvent extends HomeEvent {}
 
 class HomeLoadedEvent extends HomeEvent {
   final Categories categories;
-  final Dishes dishes;
 
   HomeLoadedEvent({
     required this.categories,
-    required this.dishes,
   });
 }

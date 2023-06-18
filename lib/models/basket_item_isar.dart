@@ -1,21 +1,16 @@
 import 'package:isar/isar.dart';
 
-part 'dishes_isar.g.dart';
+part 'basket_item_isar.g.dart';
 
 @Collection()
-class DishesIsar {
+class BasketItemIsar {
   Id id = Isar.autoIncrement; // you can also use id = null to auto increment
 
   String? name;
-
   int? price;
-
   int? weight;
-
-  String? description;
+  int? quantity;
 
   @Name('image_url')
   String? imageUrl;
-  
-  List<String>? tags;
 }

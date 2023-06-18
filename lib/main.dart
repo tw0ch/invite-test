@@ -63,12 +63,19 @@ class MyApp extends StatelessWidget {
               ),
             ],
           ),
-          GoRoute(
-            path: Routes.detail,
-            pageBuilder: (context, state) => DialogPage(
-              builder: (_) => DetailPage(),
-            ),
-          ),
+          // GoRoute(
+          //   path: Routes.detail,
+          //   pageBuilder: (context, state) => DialogPage(
+          //     builder: (_) => DetailPage(
+          //       id: state.queryParameters['id'] ?? '',
+          //       imgUrl: state.queryParameters['imgUrl'] ?? '',
+          //       title: state.queryParameters['title'] ?? '',
+          //       cost: state.queryParameters['cost'] ?? '',
+          //       weight: state.queryParameters['weight'] ?? '',
+          //       description: state.queryParameters['description'] ?? '',
+          //     ),
+          //   ),
+          // ),
           GoRoute(
             path: Routes.category,
             pageBuilder: (context, state) {

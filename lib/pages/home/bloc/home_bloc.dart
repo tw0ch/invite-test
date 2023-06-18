@@ -34,9 +34,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       add(
         HomeLoadedEvent(
           categories: savedData,
-          dishes: Dishes(
-            dishes: [],
-          ),
         ),
       );
     } else {
@@ -47,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           add(
             HomeLoadedEvent(
               categories: _categories,
-              dishes: _dishes,
+
             ),
           );
         }

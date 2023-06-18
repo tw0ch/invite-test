@@ -9,13 +9,13 @@ import '../common_setup/routes.dart';
 class DishWidget extends StatelessWidget {
   final String title;
   final String imgUrl;
-  // final VoidCallback onTap;
+  final VoidCallback onTap;
 
   const DishWidget({
     super.key,
     required this.title,
     required this.imgUrl,
-    // required this.onTap,
+    required this.onTap,
   });
 
   @override
@@ -29,7 +29,10 @@ class DishWidget extends StatelessWidget {
               Container(
                 width: double.infinity,
                 height: 109,
-                child: _buildCachedImg(imgUrl),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: _buildCachedImg(imgUrl),
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.colorF8F7F5,
                   borderRadius: BorderRadius.circular(10),
@@ -63,14 +66,7 @@ class DishWidget extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DetailPage();
-                    },
-                  );
-                },
+                onTap: onTap,
               ),
             ),
           ),

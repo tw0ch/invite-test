@@ -37,9 +37,9 @@ const DishesIsarSchema = CollectionSchema(
       name: r'price',
       type: IsarType.long,
     ),
-    r'tegs': PropertySchema(
+    r'tags': PropertySchema(
       id: 4,
-      name: r'tegs',
+      name: r'tags',
       type: IsarType.stringList,
     ),
     r'weight': PropertySchema(
@@ -87,7 +87,7 @@ int _dishesIsarEstimateSize(
     }
   }
   {
-    final list = object.tegs;
+    final list = object.tags;
     if (list != null) {
       bytesCount += 3 + list.length * 3;
       {
@@ -111,7 +111,7 @@ void _dishesIsarSerialize(
   writer.writeString(offsets[1], object.imageUrl);
   writer.writeString(offsets[2], object.name);
   writer.writeLong(offsets[3], object.price);
-  writer.writeStringList(offsets[4], object.tegs);
+  writer.writeStringList(offsets[4], object.tags);
   writer.writeLong(offsets[5], object.weight);
 }
 
@@ -127,7 +127,7 @@ DishesIsar _dishesIsarDeserialize(
   object.imageUrl = reader.readStringOrNull(offsets[1]);
   object.name = reader.readStringOrNull(offsets[2]);
   object.price = reader.readLongOrNull(offsets[3]);
-  object.tegs = reader.readStringList(offsets[4]);
+  object.tags = reader.readStringList(offsets[4]);
   object.weight = reader.readLongOrNull(offsets[5]);
   return object;
 }
@@ -820,30 +820,30 @@ extension DishesIsarQueryFilter
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsIsNull() {
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tegs',
+        property: r'tags',
       ));
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsIsNotNull() {
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsIsNotNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tegs',
+        property: r'tags',
       ));
     });
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementEqualTo(
+      tagsElementEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -851,7 +851,7 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementGreaterThan(
+      tagsElementGreaterThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -859,7 +859,7 @@ extension DishesIsarQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -867,7 +867,7 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementLessThan(
+      tagsElementLessThan(
     String value, {
     bool include = false,
     bool caseSensitive = true,
@@ -875,7 +875,7 @@ extension DishesIsarQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -883,7 +883,7 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementBetween(
+      tagsElementBetween(
     String lower,
     String upper, {
     bool includeLower = true,
@@ -892,7 +892,7 @@ extension DishesIsarQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'tegs',
+        property: r'tags',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -903,13 +903,13 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementStartsWith(
+      tagsElementStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -917,13 +917,13 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementEndsWith(
+      tagsElementEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -931,10 +931,10 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementContains(String value, {bool caseSensitive = true}) {
+      tagsElementContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.contains(
-        property: r'tegs',
+        property: r'tags',
         value: value,
         caseSensitive: caseSensitive,
       ));
@@ -942,10 +942,10 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementMatches(String pattern, {bool caseSensitive = true}) {
+      tagsElementMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.matches(
-        property: r'tegs',
+        property: r'tags',
         wildcard: pattern,
         caseSensitive: caseSensitive,
       ));
@@ -953,30 +953,30 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementIsEmpty() {
+      tagsElementIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'tegs',
+        property: r'tags',
         value: '',
       ));
     });
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsElementIsNotEmpty() {
+      tagsElementIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'tegs',
+        property: r'tags',
         value: '',
       ));
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsLengthEqualTo(
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsLengthEqualTo(
       int length) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         length,
         true,
         length,
@@ -985,10 +985,10 @@ extension DishesIsarQueryFilter
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsIsEmpty() {
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         0,
         true,
         0,
@@ -997,10 +997,10 @@ extension DishesIsarQueryFilter
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsIsNotEmpty() {
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         0,
         false,
         999999,
@@ -1010,13 +1010,13 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsLengthLessThan(
+      tagsLengthLessThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         0,
         true,
         length,
@@ -1026,13 +1026,13 @@ extension DishesIsarQueryFilter
   }
 
   QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition>
-      tegsLengthGreaterThan(
+      tagsLengthGreaterThan(
     int length, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         length,
         include,
         999999,
@@ -1041,7 +1041,7 @@ extension DishesIsarQueryFilter
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tegsLengthBetween(
+  QueryBuilder<DishesIsar, DishesIsar, QAfterFilterCondition> tagsLengthBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -1049,7 +1049,7 @@ extension DishesIsarQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.listLength(
-        r'tegs',
+        r'tags',
         lower,
         includeLower,
         upper,
@@ -1302,9 +1302,9 @@ extension DishesIsarQueryWhereDistinct
     });
   }
 
-  QueryBuilder<DishesIsar, DishesIsar, QDistinct> distinctByTegs() {
+  QueryBuilder<DishesIsar, DishesIsar, QDistinct> distinctByTags() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'tegs');
+      return query.addDistinctBy(r'tags');
     });
   }
 
@@ -1347,9 +1347,9 @@ extension DishesIsarQueryProperty
     });
   }
 
-  QueryBuilder<DishesIsar, List<String>?, QQueryOperations> tegsProperty() {
+  QueryBuilder<DishesIsar, List<String>?, QQueryOperations> tagsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'tegs');
+      return query.addPropertyName(r'tags');
     });
   }
 
