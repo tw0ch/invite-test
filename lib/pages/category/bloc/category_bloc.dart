@@ -18,6 +18,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         ));
       } else if (event is AddItemInBasketEvent) {
         _addItemInBasket(
+          id: event.id,
           name: event.name,
           price: event.price,
           weight: event.weight,
@@ -59,6 +60,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   }
 
   Future<void> _addItemInBasket({
+    required int id,
     required String name,
     required int price,
     required int weight,
@@ -66,6 +68,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     required String imageUrl,
   }) async {
     await PersistenceManager.p.saveBasketItemToDb(
+      id: id,
       name: name,
       price: price,
       weight: weight,

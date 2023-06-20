@@ -3,6 +3,8 @@ part of 'basket_bloc.dart';
 @immutable
 abstract class BasketEvent {}
 
+
+
 class BasketLoadedEvent extends BasketEvent {
   final List<BasketItem> basketItems;
 
@@ -11,6 +13,18 @@ class BasketLoadedEvent extends BasketEvent {
   });
 }
 
-class BaksetItemAddQuantityEvent extends BasketEvent {}
+class BaksetItemAddQuantityEvent extends BasketEvent {
+  final int itemId;
 
-class BaksetItemRemoveQuantityEvent extends BasketEvent {}
+  BaksetItemAddQuantityEvent({
+    required this.itemId,
+  });
+}
+
+class BaksetItemRemoveQuantityEvent extends BasketEvent {
+    final int itemId;
+
+  BaksetItemRemoveQuantityEvent({
+    required this.itemId,
+  });
+}

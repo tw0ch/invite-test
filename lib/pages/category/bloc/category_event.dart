@@ -14,6 +14,7 @@ class CategoryLoadedEvent extends CategoryEvent {
 }
 
 class AddItemInBasketEvent extends CategoryEvent {
+  final int id;
   final String name;
   final int price;
   final int weight;
@@ -21,6 +22,7 @@ class AddItemInBasketEvent extends CategoryEvent {
   final String imageUrl;
 
   AddItemInBasketEvent({
+    required this.id,
     required this.name,
     required this.price,
     required this.weight,

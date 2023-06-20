@@ -18,13 +18,13 @@ class BasketPage extends StatelessWidget {
       create: (context) => BasketBloc(),
       child: BlocBuilder<BasketBloc, BasketState>(
         builder: (context, state) {
-          if (state is BasketLoadedState) {
+          if (state is BasketLoadedState && state.basketItems.isNotEmpty) {
             return _buildLoadedBody(
               basketItems: state.basketItems,
               state: state,
             );
           } else {
-            return _buildLoadingBody();
+            return _buildEmptyBody();
           }
         },
       ),
@@ -35,6 +35,7 @@ class BasketPage extends StatelessWidget {
     required List<BasketItem> basketItems,
     required BasketLoadedState state,
   }) {
+    int finalCoast = _getFinalCost(items: basketItems);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -98,29 +99,32 @@ class BasketPage extends StatelessWidget {
               Expanded(
                 child: Stack(
                   children: [
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext, i) {
-                        return BasketItemWidget(
-                          id: state.basketItems[i].id,
-                          imageUrl: state.basketItems[i].imageUrl,
-                          name: state.basketItems[i].name,
-                          price: state.basketItems[i].price,
-                          quantity: state.basketItems[i].quantity,
-                          weight: state.basketItems[i].weight,
-                        );
-                      },
-                      separatorBuilder: (BuildContext, int) {
-                        return Container(height: 16);
-                      },
-                      itemCount: state.basketItems.length,
+                    SizedBox(
+                      // height: double.infinity,
+                      child: ListView.separated(
+                        // shrinkWrap: true,
+                        itemBuilder: (BuildContext, i) {
+                          return BasketItemWidget(
+                            id: state.basketItems[i].id,
+                            imageUrl: state.basketItems[i].imageUrl,
+                            name: state.basketItems[i].name,
+                            price: state.basketItems[i].price,
+                            quantity: state.basketItems[i].quantity,
+                            weight: state.basketItems[i].weight,
+                          );
+                        },
+                        separatorBuilder: (BuildContext, int) {
+                          return Container(height: 16);
+                        },
+                        itemCount: state.basketItems.length,
+                      ),
                     ),
                     Align(
                       alignment: Alignment(0, 0.95),
                       child: PrimaryButton(
                         onTap: () {},
                         child: Text(
-                          'Оплатить 2 004 ₽',
+                          'Оплатить ${finalCoast} ₽',
                           style: TextStyle(
                             fontFamily: 'SF Pro Display',
                             fontSize: 16,
@@ -139,16 +143,27 @@ class BasketPage extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _buildLoadingBody() {
-  return Center(
-    child: CircularProgressIndicator(
-      backgroundColor: Colors.deepPurple,
-      strokeWidth: 8,
-      color: Colors.green,
-    ),
-  );
+  int _getFinalCost({required List<BasketItem> items}) {
+    double counter = 0.0;
+    for (int i = 0; i < items.length; i++) {
+      counter += items[i].price.toDouble() * items[i].quantity;
+    }
+    return counter.ceil();
+  }
+
+  Widget _buildEmptyBody() {
+    return Center(
+      child: Text(
+        'Корзина пуста',
+        style: TextStyle(
+          fontFamily: 'SF Pro Display',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+    );
+  }
 }
 
 class BasketItemWidget extends StatefulWidget {
@@ -250,7 +265,12 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
                         // Splash color
                         onTap: () {
                           setState(() {
-                            //  -= 1;
+                            context.read<BasketBloc>().add(
+                                  BaksetItemRemoveQuantityEvent(
+                                    itemId: widget.id,
+                                  ),
+                                );
+                            print('${widget.quantity}');
                           });
                         },
                         child: SizedBox(
@@ -276,7 +296,11 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
                         // Splash color
                         onTap: () {
                           setState(() {
-                            //  += 1;
+                            context.read<BasketBloc>().add(
+                                  BaksetItemAddQuantityEvent(
+                                    itemId: widget.id,
+                                  ),
+                                );
                           });
                         },
                         child: SizedBox(

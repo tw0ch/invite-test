@@ -114,6 +114,7 @@ class PersistenceManager {
   }
 
   Future<void> saveBasketItemToDb({
+    required int id,
     required String name,
     required int price,
     required int weight,
@@ -121,15 +122,28 @@ class PersistenceManager {
     required String imageUrl,
   }) async {
     final isar = await _isarGetter;
-    final isarBasketItem = BasketItemIsar()
-      ..name = name
-      ..price = price
-      ..weight = weight
-      ..quantity = quantity
-      ..imageUrl = imageUrl;
-    isar.writeTxn(() async {
-      isar.basketItemIsars.put(isarBasketItem);
-    });
+    final element = await isar.basketItemIsars.get(id);
+    if (element != null) {
+      isar.writeTxn(() async {
+        if (element.quantity != null) {
+          element.quantity = element.quantity! + 1;
+        } else {
+          element.quantity = 1;
+        }
+        isar.basketItemIsars.put(element);
+      });
+    } else {
+      final isarBasketItem = BasketItemIsar()
+        ..id = id
+        ..name = name
+        ..price = price
+        ..weight = weight
+        ..quantity = quantity
+        ..imageUrl = imageUrl;
+      isar.writeTxn(() async {
+        isar.basketItemIsars.put(isarBasketItem);
+      });
+    }
   }
 
   Future<List<BasketItem>?> getListBasketItemsFromDb() async {
@@ -153,6 +167,34 @@ class PersistenceManager {
       return basketItemsList;
     } else {
       return null;
+    }
+  }
+
+  Future<void> addQuantityBasketItem({required int id}) async {
+    final isar = await _isarGetter;
+    final element = await isar.basketItemIsars.get(id);
+    if (element != null) {
+      isar.writeTxn(() async {
+        element.quantity = element.quantity! + 1;
+        isar.basketItemIsars.put(element);
+      });
+    }
+  }
+
+  Future<void> removeQuantityBasketItem({required int id}) async {
+    final isar = await _isarGetter;
+    final element = await isar.basketItemIsars.get(id);
+    if (element != null) {
+      if (element.quantity! > 1) {
+        isar.writeTxn(() async {
+          element.quantity = element.quantity! - 1;
+          isar.basketItemIsars.put(element);
+        });
+      } else {
+        isar.writeTxn(() async {
+          isar.basketItemIsars.delete(element.id);
+        });
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 class BasketItem {
-  final int id; // you can also use id = null to auto increment
+  final int id;
 
   final String name;
   final int price;

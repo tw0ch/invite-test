@@ -150,6 +150,7 @@ class CategoryPage extends StatelessWidget {
                               onTap: () {
                                 context.read<CategoryBloc>().add(
                                       AddItemInBasketEvent(
+                                        id: state.dishes.dishes[index].id,
                                         name: state.dishes.dishes[index].name,
                                         price: state.dishes.dishes[index].price
                                             .toInt(),
@@ -176,7 +177,7 @@ class CategoryPage extends StatelessWidget {
         ),
       ),
     );
-  }  
+  }
 
   Widget _buildDetailWidget({
     required int id,
