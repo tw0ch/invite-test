@@ -148,18 +148,20 @@ class CategoryPage extends StatelessWidget {
                               title: state.dishes.dishes[index].name,
                               weight: state.dishes.dishes[index].weight.toInt(),
                               onTap: () {
-                                // context
-                                //     .read<CategoryBloc>()
-                                //     .add(AddItemInBasketEvent(
-                                //       name: state.dishes.dishes[index].name,
-                                //       price: state.dishes.dishes[index].price
-                                //           .toInt(),
-                                //       weight: state.dishes.dishes[index].weight
-                                //           .toInt(),
-                                //       quantity: 1,
-                                //       imageUrl:
-                                //           state.dishes.dishes[index].imageUrl,
-                                //     ));
+                                context.read<CategoryBloc>().add(
+                                      AddItemInBasketEvent(
+                                        name: state.dishes.dishes[index].name,
+                                        price: state.dishes.dishes[index].price
+                                            .toInt(),
+                                        weight: state
+                                            .dishes.dishes[index].weight
+                                            .toInt(),
+                                        quantity: 1,
+                                        imageUrl:
+                                            state.dishes.dishes[index].imageUrl,
+                                      ),
+                                    );
+                                context.pop();
                               },
                             );
                           },
@@ -174,10 +176,9 @@ class CategoryPage extends StatelessWidget {
         ),
       ),
     );
-  }
+  }  
 
   Widget _buildDetailWidget({
-    required BuildContext context,
     required int id,
     required String imgUrl,
     required String title,
@@ -185,6 +186,7 @@ class CategoryPage extends StatelessWidget {
     required int weight,
     required String description,
     required VoidCallback onTap,
+    required BuildContext context,
   }) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -351,7 +353,6 @@ class CategoryPage extends StatelessWidget {
       );
     }
   }
-
 
   Widget _buildLoadingBody() {
     return Container(color: Colors.transparent);

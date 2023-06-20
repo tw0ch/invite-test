@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invite_application/pages/basket/basket_page.dart';
 import 'package:invite_application/pages/detail/detail_page.dart';
 import 'package:invite_application/pages/home/home_page.dart';
@@ -8,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import 'common_setup/routes.dart';
 import 'models/dishes.dart';
+import 'pages/category/bloc/category_bloc.dart';
 import 'pages/category/category_page.dart';
 
 void main() {
@@ -21,73 +23,76 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: GoRouter(
-        initialLocation: Routes.home,
-        navigatorKey: _rootNavigatorKey,
-        routes: [
-          ShellRoute(
-            builder: (context, state, child) => MainPage(
-              location: state.location,
-              child: child,
+    return BlocProvider(
+      create: (context) => CategoryBloc(),
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: GoRouter(
+          initialLocation: Routes.home,
+          navigatorKey: _rootNavigatorKey,
+          routes: [
+            ShellRoute(
+              builder: (context, state, child) => MainPage(
+                location: state.location,
+                child: child,
+              ),
+              routes: <RouteBase>[
+                GoRoute(
+                  path: Routes.home,
+                  pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: HomePage(),
+                  ),
+                ),
+                GoRoute(
+                  path: Routes.search,
+                  pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: Container(),
+                  ),
+                ),
+                GoRoute(
+                  path: Routes.basket,
+                  pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: BasketPage(),
+                  ),
+                ),
+                GoRoute(
+                  path: Routes.account,
+                  pageBuilder: (context, state) => MaterialPage<void>(
+                    key: state.pageKey,
+                    child: Container(),
+                  ),
+                ),
+              ],
             ),
-            routes: <RouteBase>[
-              GoRoute(
-                path: Routes.home,
-                pageBuilder: (context, state) => MaterialPage<void>(
+            // GoRoute(
+            //   path: Routes.detail,
+            //   pageBuilder: (context, state) => DialogPage(
+            //     builder: (_) => DetailPage(
+            //       id: state.queryParameters['id'] ?? '',
+            //       imgUrl: state.queryParameters['imgUrl'] ?? '',
+            //       title: state.queryParameters['title'] ?? '',
+            //       cost: state.queryParameters['cost'] ?? '',
+            //       weight: state.queryParameters['weight'] ?? '',
+            //       description: state.queryParameters['description'] ?? '',
+            //     ),
+            //   ),
+            // ),
+            GoRoute(
+              path: Routes.category,
+              pageBuilder: (context, state) {
+                return MaterialPage<void>(
                   key: state.pageKey,
-                  child: HomePage(),
-                ),
-              ),
-              GoRoute(
-                path: Routes.search,
-                pageBuilder: (context, state) => MaterialPage<void>(
-                  key: state.pageKey,
-                  child: Container(),
-                ),
-              ),
-              GoRoute(
-                path: Routes.basket,
-                pageBuilder: (context, state) => MaterialPage<void>(
-                  key: state.pageKey,
-                  child: BasketPage(),
-                ),
-              ),
-              GoRoute(
-                path: Routes.account,
-                pageBuilder: (context, state) => MaterialPage<void>(
-                  key: state.pageKey,
-                  child: Container(),
-                ),
-              ),
-            ],
-          ),
-          // GoRoute(
-          //   path: Routes.detail,
-          //   pageBuilder: (context, state) => DialogPage(
-          //     builder: (_) => DetailPage(
-          //       id: state.queryParameters['id'] ?? '',
-          //       imgUrl: state.queryParameters['imgUrl'] ?? '',
-          //       title: state.queryParameters['title'] ?? '',
-          //       cost: state.queryParameters['cost'] ?? '',
-          //       weight: state.queryParameters['weight'] ?? '',
-          //       description: state.queryParameters['description'] ?? '',
-          //     ),
-          //   ),
-          // ),
-          GoRoute(
-            path: Routes.category,
-            pageBuilder: (context, state) {
-              return MaterialPage<void>(
-                key: state.pageKey,
-                child: CategoryPage(
-                  title: state.queryParameters['title'] ?? '',
-                ),
-              );
-            },
-          ),
-        ],
+                  child: CategoryPage(
+                    title: state.queryParameters['title'] ?? '',
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

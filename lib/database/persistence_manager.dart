@@ -23,6 +23,7 @@ class PersistenceManager {
         [
           CategoriesIsarSchema,
           DishesIsarSchema,
+          BasketItemIsarSchema,
         ],
         directory: appDir.path,
       );
