@@ -1,22 +1,24 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../models/dishes.dart';
 import '../../../ui/dish_card.dart';
 import '../../../utils/app_assets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons_icons.dart';
 import '../../ui/buttons.dart';
-import '../detail/detail_page.dart';
 import 'bloc/category_bloc.dart';
+
+import 'package:flutter/foundation.dart';
 
 class CategoryPage extends StatelessWidget {
   final String title;
 
-  CategoryPage({
+  const CategoryPage({
     super.key,
     required this.title,
   });
@@ -104,10 +106,30 @@ class CategoryPage extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext, int) {
+                    itemBuilder: (BuildContext context, int i) {
                       return TagWidget(
-                        index: int,
+                        index: i,
                         tags: state.tags,
+                        isActive: _checkIsActiveTag(
+                          activeTagsIndexes: state.activeTagsIndexes,
+                          index: i,
+                        ),
+                        onTap: () {
+                          if (allowChanges(
+                              activeTagsIndexes: state.activeTagsIndexes,
+                              index: i)) {
+                            final activeTagsIndexes = _changeActiveTagIndexes(
+                              activeTagsIndexes: state.activeTagsIndexes,
+                              index: i,
+                            );
+                            context.read<CategoryBloc>().add(
+                                  FilterItemsByTagEvent(
+                                    activeTagsIndexes: activeTagsIndexes,
+                                    tags: state.tags,
+                                  ),
+                                );
+                          }
+                        },
                       );
                     },
                     separatorBuilder: (BuildContext, int) {
@@ -177,6 +199,52 @@ class CategoryPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool allowChanges({
+    required List<int> activeTagsIndexes,
+    required int index,
+  }) {
+      return true;
+  }
+
+  List<int> _changeActiveTagIndexes({
+    required List<int> activeTagsIndexes,
+    required int index,
+  }) {
+    if (activeTagsIndexes.contains(index) && activeTagsIndexes.length != 1) {
+      activeTagsIndexes.remove(index);
+      return activeTagsIndexes;
+    } else if (activeTagsIndexes.contains(0) && index != 0) {
+      activeTagsIndexes.remove(0);
+      activeTagsIndexes.add(index);
+      return activeTagsIndexes;
+    } else if (!activeTagsIndexes.contains(0) && index == 0) {
+      activeTagsIndexes.clear();
+      activeTagsIndexes.add(0);
+      return activeTagsIndexes;
+    } else if (activeTagsIndexes.contains(index) &&
+        activeTagsIndexes.length == 1) {
+      activeTagsIndexes.clear();
+      activeTagsIndexes.add(0);
+      return activeTagsIndexes;
+    } else {
+      activeTagsIndexes.add(index);
+      return activeTagsIndexes;
+    }
+  }
+
+  bool _checkIsActiveTag({
+    required int index,
+    required List<int> activeTagsIndexes,
+  }) {
+    bool isActive = false;
+    for (int i = 0; i < activeTagsIndexes.length; i++) {
+      if (activeTagsIndexes[i] == index) {
+        isActive = !isActive;
+      }
+    }
+    return isActive;
   }
 
   Widget _buildDetailWidget({
@@ -358,28 +426,55 @@ class CategoryPage extends StatelessWidget {
   Widget _buildLoadingBody() {
     return Container(color: Colors.transparent);
   }
+}
 
-  Widget TagWidget({required List<String> tags, required int index}) {
-    final bool active = false;
+class TagWidget extends StatefulWidget {
+  final int index;
+  final VoidCallback onTap;
+  final List<String> tags;
+  final bool isActive;
+
+  const TagWidget({
+    super.key,
+    required this.index,
+    required this.onTap,
+    required this.tags,
+    required this.isActive,
+  });
+
+  @override
+  State<TagWidget> createState() => _TagWidgetState();
+}
+
+class _TagWidgetState extends State<TagWidget> {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 35,
       decoration: BoxDecoration(
-        color: active ? AppColors.color3364E0 : AppColors.colorF8F7F5,
+        color: widget.isActive ? AppColors.color3364E0 : AppColors.colorF8F7F5,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 10.0,
-        ),
-        child: Center(
-          child: Text(
-            tags[index],
-            style: TextStyle(
-              fontSize: 14,
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w400,
-              color: active ? Colors.white : Colors.black,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(10),
+          onTap: widget.onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
+            ),
+            child: Center(
+              child: Text(
+                widget.tags[widget.index],
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'SF Pro Display',
+                  fontWeight: FontWeight.w400,
+                  color: widget.isActive ? Colors.white : Colors.black,
+                ),
+              ),
             ),
           ),
         ),

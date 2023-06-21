@@ -12,10 +12,13 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   CategoryBloc() : super(CategoryInitial()) {
     on<CategoryEvent>((event, emit) {
       if (event is CategoryLoadedEvent) {
-        emit(CategoryLoadedState(
-          dishes: event.dishes,
-          tags: event.tags,
-        ));
+        emit(
+          CategoryLoadedState(
+            dishes: event.dishes,
+            tags: event.tags,
+            activeTagsIndexes: event.activeTagsIndexes,
+          ),
+        );
       } else if (event is AddItemInBasketEvent) {
         _addItemInBasket(
           id: event.id,
@@ -25,31 +28,56 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
           quantity: event.quantity,
           imageUrl: event.imageUrl,
         );
+      } else if (event is FilterItemsByTagEvent) {
+        _filterItemsByTagEvent(
+          tags: event.tags,
+          activeTagsIndexes: event.activeTagsIndexes,
+        );
       }
     });
     _initCategoryPage();
   }
 
+  Future<void> _filterItemsByTagEvent({
+    required List<int> activeTagsIndexes,
+    required List<String> tags,
+  }) async {
+    final filteredData = await PersistenceManager.p.getFilteredDishesFromDb(
+      activeTagsIndexes: activeTagsIndexes,
+      tags: tags,
+    );
+    if (filteredData != null) {
+      add(
+        CategoryLoadedEvent(
+          dishes: filteredData,
+          tags: tags,
+          activeTagsIndexes: activeTagsIndexes,
+        ),
+      );
+    }
+  }
+
   Future<void> _initCategoryPage() async {
     final savedData = await PersistenceManager.p.getDishesFromDb();
-    List<String> _tags = Dishes.allTags.toList();
-
-    if (savedData != null && _tags.isNotEmpty) {
+    if (savedData != null) {
+      List<String> _tags = _catchTags(savedData);
       add(
         CategoryLoadedEvent(
           dishes: savedData,
           tags: _tags,
+          activeTagsIndexes: [0],
         ),
       );
     } else {
       try {
         Dishes? _dishes = await DishesService().getAllDishes();
-        _tags = Dishes.allTags.toList();
         if (_dishes != null) {
+          List<String> _tags = _catchTags(_dishes);
           add(
             CategoryLoadedEvent(
               dishes: _dishes,
               tags: _tags,
+              activeTagsIndexes: [0],
             ),
           );
         }
@@ -57,6 +85,17 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
         print('Error - get categories');
       }
     }
+  }
+
+  List<String> _catchTags(Dishes savedData) {
+    Set<String> allTagsSet = {};
+    for (int i = 0; i < savedData.dishes.length; i++) {
+      for (var element in savedData.dishes[i].tags) {
+        allTagsSet.add(element);
+      }
+    }
+    List<String> allTagsList = allTagsSet.toList();
+    return allTagsList;
   }
 
   Future<void> _addItemInBasket({

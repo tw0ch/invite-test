@@ -10,7 +10,7 @@ String dishesToJson(Dishes data) => json.encode(data.toJson());
 
 class Dishes {
   List<Dish> dishes;
-  static final Set<String> allTags = {};
+
 
   Dishes({
     required this.dishes,
@@ -53,7 +53,6 @@ class Dish {
         imageUrl: json["image_url"],
         tags: List<String>.from(
           json["tegs"].map((x) {
-            Dishes.allTags.add(x.toString());
             return x.toString();
           }),
         ),

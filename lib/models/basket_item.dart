@@ -4,7 +4,7 @@ class BasketItem {
   final String name;
   final int price;
   final int weight;
-  final int quantity;
+  int quantity;
   final String imageUrl;
 
   BasketItem({

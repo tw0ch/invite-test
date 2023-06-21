@@ -103,14 +103,30 @@ class BasketPage extends StatelessWidget {
                       // height: double.infinity,
                       child: ListView.separated(
                         // shrinkWrap: true,
-                        itemBuilder: (BuildContext, i) {
+                        itemBuilder: (BuildContext context, i) {
                           return BasketItemWidget(
-                            id: state.basketItems[i].id,
+                            // id: state.basketItems[i].id,
                             imageUrl: state.basketItems[i].imageUrl,
                             name: state.basketItems[i].name,
                             price: state.basketItems[i].price,
                             quantity: state.basketItems[i].quantity,
                             weight: state.basketItems[i].weight,
+                            onAddTap: () {
+                              context.read<BasketBloc>().add(
+                                    BaksetItemAddQuantityEvent(
+                                      itemIndex: i,
+                                      items: state.basketItems,
+                                    ),
+                                  );
+                            },
+                            onRemoveTap: () {
+                              context.read<BasketBloc>().add(
+                                    BaksetItemRemoveQuantityEvent(
+                                      itemIndex: i,
+                                      items: state.basketItems,
+                                    ),
+                                  );
+                            },
                           );
                         },
                         separatorBuilder: (BuildContext, int) {
@@ -167,21 +183,25 @@ class BasketPage extends StatelessWidget {
 }
 
 class BasketItemWidget extends StatefulWidget {
-  final int id;
+  // final int id;
   final String name;
   final int price;
   final int weight;
   final int quantity;
   final String imageUrl;
+  final VoidCallback onAddTap;
+  final VoidCallback onRemoveTap;
 
   const BasketItemWidget({
     super.key,
-    required this.id,
+    // required this.id,
     required this.name,
     required this.price,
     required this.weight,
     required this.quantity,
     required this.imageUrl,
+    required this.onAddTap,
+    required this.onRemoveTap,
   });
 
   @override
@@ -263,16 +283,7 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
                       color: Colors.transparent, // Button color
                       child: InkWell(
                         // Splash color
-                        onTap: () {
-                          setState(() {
-                            context.read<BasketBloc>().add(
-                                  BaksetItemRemoveQuantityEvent(
-                                    itemId: widget.id,
-                                  ),
-                                );
-                            print('${widget.quantity}');
-                          });
-                        },
+                        onTap: widget.onRemoveTap,
                         child: SizedBox(
                           child: Icon(
                             AppIcons.decrement,
@@ -294,15 +305,7 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
                       color: Colors.transparent, // Button color
                       child: InkWell(
                         // Splash color
-                        onTap: () {
-                          setState(() {
-                            context.read<BasketBloc>().add(
-                                  BaksetItemAddQuantityEvent(
-                                    itemId: widget.id,
-                                  ),
-                                );
-                          });
-                        },
+                        onTap: widget.onAddTap,
                         child: SizedBox(
                           child: Icon(
                             AppIcons.increment,

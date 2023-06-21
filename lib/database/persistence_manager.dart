@@ -82,6 +82,54 @@ class PersistenceManager {
     }
   }
 
+  Future<Dishes?> getFilteredDishesFromDb({
+    required List<int> activeTagsIndexes,
+    required List<String> tags,
+  }) async {
+    final isar = await _isarGetter;
+    final List<String> activeTags = List.generate(
+      activeTagsIndexes.length,
+      (index) => tags[activeTagsIndexes[index]],
+    );
+    final List<DishesIsar> items;
+
+    if ((activeTagsIndexes.contains(0) && activeTagsIndexes.length == 1) ||
+        activeTags.isEmpty) {
+      items = await isar.dishesIsars.where().findAll();
+    } else {
+      items = await isar.dishesIsars
+          .filter()
+          .allOf(
+            activeTags,
+            (q, element) => q.tagsElementEqualTo(element),
+          )
+          .findAll();
+    }
+    print('filtered dishesIsars length - ${items.length}');
+    Dishes dishes;
+    List<Dish> dishList = [];
+
+    for (int i = 0; i < items.length; i++) {
+      final List<String> tags = items[i].tags ?? [];
+      dishList.add(
+        Dish(
+          id: items[i].id,
+          name: items[i].name.toString(),
+          price: items[i].price ?? 0,
+          weight: items[i].weight ?? 0,
+          description: items[i].description ?? '',
+          imageUrl: items[i].imageUrl ?? '',
+          tags: List<String>.from(
+            tags.map((x) => x),
+          ),
+        ),
+      );
+    }
+
+    dishes = Dishes(dishes: dishList);
+    return dishes;
+  }
+
   Future<Dishes?> getDishesFromDb() async {
     final isar = await _isarGetter;
     final items = await isar.dishesIsars.where().findAll();

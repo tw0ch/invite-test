@@ -17,11 +17,16 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
           ),
         );
       } else if (event is BaksetItemAddQuantityEvent) {
-        _addQuantityBasketItem(itemId: event.itemId);
-        _initBasketPage();
+        _addQuantityBasketItem(
+          itemIndex: event.itemIndex,
+          items: event.items,
+        );
       } else if (event is BaksetItemRemoveQuantityEvent) {
-        _removeQuantityBasketItem(itemId: event.itemId);
-         _initBasketPage();
+        _removeQuantityBasketItem(
+          itemIndex: event.itemIndex,
+          items: event.items,
+        );
+        // _initBasketPage();
       }
     });
     _initBasketPage();
@@ -38,15 +43,38 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     }
   }
 
-  Future<void> _addQuantityBasketItem({required int itemId}) async {
+  Future<void> _addQuantityBasketItem({
+    required int itemIndex,
+    required List<BasketItem> items,
+  }) async {
     await PersistenceManager.p.addQuantityBasketItem(
-      id: itemId,
+      id: items[itemIndex].id,
+    );
+    items[itemIndex].quantity = items[itemIndex].quantity + 1;
+    add(
+      BasketLoadedEvent(
+        basketItems: items,
+      ),
     );
   }
 
-  Future<void> _removeQuantityBasketItem({required int itemId}) async {
+  Future<void> _removeQuantityBasketItem({
+    required int itemIndex,
+    required List<BasketItem> items,
+  }) async {
     await PersistenceManager.p.removeQuantityBasketItem(
-      id: itemId,
+      id: items[itemIndex].id,
+    );
+
+    if (items[itemIndex].quantity > 1) {
+      items[itemIndex].quantity = items[itemIndex].quantity - 1;
+    } else {
+      items.removeAt(itemIndex);
+    }
+    add(
+      BasketLoadedEvent(
+        basketItems: items,
+      ),
     );
   }
 }

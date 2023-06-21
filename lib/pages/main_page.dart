@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:invite_application/pages/basket/basket_page.dart';
 import 'package:invite_application/pages/home/home_page.dart';
@@ -6,6 +7,7 @@ import 'package:invite_application/pages/home/home_page.dart';
 import '../common_setup/routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_icons_icons.dart';
+import 'category/bloc/category_bloc.dart';
 
 class MainPage extends StatefulWidget {
   final String location;
