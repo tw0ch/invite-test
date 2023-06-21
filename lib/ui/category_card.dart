@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'cached_img.dart';
+
 class CategoryCard extends StatelessWidget {
   final String title;
   final String imgUrl;
@@ -23,7 +25,10 @@ class CategoryCard extends StatelessWidget {
       child: Stack(
         children: [
           Positioned.fill(
-            child: _buildCachedImg(imgUrl),
+            child: CathedNetworkImgWidget(
+              imgUrl: imgUrl,
+              height: 125,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -57,25 +62,5 @@ class CategoryCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildCachedImg(String imgUrl) {
-    if (imgUrl != null) {
-      return CachedNetworkImage(
-        imageUrl: imgUrl,
-        placeholder: (context, url) => Container(
-          color: Colors.red,
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.red,
-        ),
-        height: 125,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Container(
-        color: Colors.red,
-      );
-    }
   }
 }

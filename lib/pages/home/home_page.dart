@@ -150,29 +150,31 @@ class HomePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Shimmer.fromColors(
-                              baseColor: AppColors.colorA5A9B2,
+                              baseColor: AppColors.colorF8F7F5,
                               highlightColor:
                                   AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Text(
-                                'Санкт-Петербург',
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
+                              child: Container(
+                                height: 20,
+                                width: 145,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorF8F7F5,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 4,
+                            ),
                             Shimmer.fromColors(
-                              baseColor: AppColors.colorA5A9B2,
+                              baseColor: AppColors.colorF8F7F5,
                               highlightColor:
                                   AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Text(
-                                '12 Августа, 2023',
-                                style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black.withOpacity(0.5),
+                              child: Container(
+                                height: 16,
+                                width: 106,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorF8F7F5,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
@@ -182,7 +184,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   Shimmer.fromColors(
-                    baseColor: AppColors.colorA5A9B2,
+                    baseColor: AppColors.colorF8F7F5,
                     highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
                     child: Container(
                       width: 44,
@@ -200,17 +202,22 @@ class HomePage extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext, int) {
                     return Shimmer.fromColors(
-                      baseColor: AppColors.colorA5A9B2,
+                      baseColor: AppColors.colorF8F7F5,
                       highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
                       child: Container(
                         height: 148,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.colorF8F7F5,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     );
                   },
                   separatorBuilder: (BuildContext, int) => SizedBox(
                     height: 8,
                   ),
-                  itemCount: 4,
+                  itemCount: 3,
                 ),
               ),
             ],

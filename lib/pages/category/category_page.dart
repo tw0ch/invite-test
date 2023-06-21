@@ -11,6 +11,7 @@ import '../../../utils/app_assets.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons_icons.dart';
 import '../../ui/buttons.dart';
+import '../../ui/cached_img.dart';
 import 'bloc/category_bloc.dart';
 
 import 'package:flutter/foundation.dart';
@@ -280,7 +281,7 @@ class CategoryPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: _buildCachedImg(imgUrl),
+                    child: CathedNetworkImgWidget(imgUrl: imgUrl),
                   ),
                 ),
                 Padding(
@@ -401,26 +402,6 @@ class CategoryPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget _buildCachedImg(String imgUrl) {
-    if (imgUrl != null) {
-      return CachedNetworkImage(
-        imageUrl: imgUrl,
-        placeholder: (context, url) => Container(
-          color: Colors.red,
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.red,
-        ),
-        height: 125,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Container(
-        color: Colors.red,
-      );
-    }
   }
 
   Widget _buildLoadingBody() {

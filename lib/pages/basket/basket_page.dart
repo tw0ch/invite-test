@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/basket_item.dart';
 import '../../ui/buttons.dart';
+import '../../ui/cached_img.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_icons_icons.dart';
@@ -27,6 +28,87 @@ class BasketPage extends StatelessWidget {
             return _buildEmptyBody();
           }
         },
+      ),
+    );
+  }
+
+  Widget _buildEmptyBody() {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            AppIcons.location,
+                          ),
+                        ),
+                        SizedBox(width: 8.5),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Санкт-Петербург',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              '12 Августа, 2023',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black.withOpacity(0.5),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 44,
+                    height: 44,
+                    child: Image.asset(
+                      A.assetsHomePageAvatarImg,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 23,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'Корзина пуста',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -167,19 +249,6 @@ class BasketPage extends StatelessWidget {
     }
     return counter.ceil();
   }
-
-  Widget _buildEmptyBody() {
-    return Center(
-      child: Text(
-        'Корзина пуста',
-        style: TextStyle(
-          fontFamily: 'SF Pro Display',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-        ),
-      ),
-    );
-  }
 }
 
 class BasketItemWidget extends StatefulWidget {
@@ -222,7 +291,7 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
               color: AppColors.colorF8F7F5,
               borderRadius: BorderRadius.circular(6),
             ),
-            child: _buildCachedImg(widget.imageUrl),
+            child: CathedNetworkImgWidget(imgUrl: widget.imageUrl),
           ),
           SizedBox(
             width: 8,
@@ -321,25 +390,5 @@ class _BasketItemWidgetState extends State<BasketItemWidget> {
         ],
       ),
     );
-  }
-
-  Widget _buildCachedImg(String imgUrl) {
-    if (imgUrl != null) {
-      return CachedNetworkImage(
-        imageUrl: imgUrl,
-        placeholder: (context, url) => Container(
-          color: Colors.red,
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.red,
-        ),
-        height: 125,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Container(
-        color: Colors.red,
-      );
-    }
   }
 }

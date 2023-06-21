@@ -5,6 +5,7 @@ import 'package:invite_application/pages/detail/detail_page.dart';
 import 'package:invite_application/utils/app_colors.dart';
 
 import '../common_setup/routes.dart';
+import 'cached_img.dart';
 
 class DishWidget extends StatelessWidget {
   final String title;
@@ -31,7 +32,7 @@ class DishWidget extends StatelessWidget {
                 height: 109,
                 child: Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: _buildCachedImg(imgUrl),
+                  child: CathedNetworkImgWidget(imgUrl: imgUrl),
                 ),
                 decoration: BoxDecoration(
                   color: AppColors.colorF8F7F5,
@@ -73,25 +74,5 @@ class DishWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildCachedImg(String imgUrl) {
-    if (imgUrl != null) {
-      return CachedNetworkImage(
-        imageUrl: imgUrl,
-        placeholder: (context, url) => Container(
-          color: Colors.red,
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: Colors.red,
-        ),
-        height: 125,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Container(
-        color: Colors.red,
-      );
-    }
   }
 }
