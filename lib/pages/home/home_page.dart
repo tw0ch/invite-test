@@ -9,6 +9,7 @@ import '../../common_setup/routes.dart';
 import '../../ui/category_card.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
+import '../category/bloc/category_bloc.dart';
 import 'bloc/home_bloc.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,7 +22,7 @@ class HomePage extends StatelessWidget {
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is HomeInitial || state is HomeLoadingState) {
-            return _buildLoadingBody();
+            return _buildLoadingBody(context);
           } else if (state is HomeLoadedState) {
             return _buildLoadedBody(context, state);
           } else {
@@ -93,25 +94,40 @@ class HomePage extends StatelessWidget {
                 height: 15,
               ),
               Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext, int) {
-                    return CategoryCard(
-                      title: '${state.categories.categories[int].name}',
-                      imgUrl: '${state.categories.categories[int].imageUrl}',
-                      onTap: () {
-                        // context.push(Routes.category, );
-                        context.push(
-                            Uri(path: Routes.category, queryParameters: {
-                          'title': '${state.categories.categories[int].name}'
-                        }).toString());
-                      },
-                    );
-                  },
-                  separatorBuilder: (BuildContext, int) => SizedBox(
-                    height: 8,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.fromSwatch(
+                      accentColor: AppColors.colorEFEEEC,
+                    ),
                   ),
-                  itemCount: state.categories.categories.length,
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<HomeBloc>().add(RefreshItemsInDbEvent());
+                    },
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext, int) {
+                        return CategoryCard(
+                          title: '${state.categories.categories[int].name}',
+                          imgUrl:
+                              '${state.categories.categories[int].imageUrl}',
+                          onTap: () {
+                            // context.push(Routes.category, );
+                            context.push(Uri(
+                                path: Routes.category,
+                                queryParameters: {
+                                  'title':
+                                      '${state.categories.categories[int].name}'
+                                }).toString());
+                          },
+                        );
+                      },
+                      separatorBuilder: (BuildContext, int) => SizedBox(
+                        height: 8,
+                      ),
+                      itemCount: state.categories.categories.length,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -121,7 +137,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingBody() {
+  Widget _buildLoadingBody(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -198,26 +214,33 @@ class HomePage extends StatelessWidget {
                 height: 15,
               ),
               Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext, int) {
-                    return Shimmer.fromColors(
-                      baseColor: AppColors.colorF8F7F5,
-                      highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
-                      child: Container(
-                        height: 148,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.colorF8F7F5,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext, int) => SizedBox(
-                    height: 8,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.fromSwatch(
+                      accentColor: AppColors.colorEFEEEC,
+                    ),
                   ),
-                  itemCount: 3,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext, int) {
+                      return Shimmer.fromColors(
+                        baseColor: AppColors.colorF8F7F5,
+                        highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
+                        child: Container(
+                          height: 148,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColors.colorF8F7F5,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext, int) => SizedBox(
+                      height: 8,
+                    ),
+                    itemCount: 3,
+                  ),
                 ),
               ),
             ],

@@ -43,28 +43,28 @@ class MyApp extends StatelessWidget {
               routes: <RouteBase>[
                 GoRoute(
                   path: Routes.home,
-                  pageBuilder: (context, state) => MaterialPage<void>(
+                  pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
                     child: HomePage(),
                   ),
                 ),
                 GoRoute(
                   path: Routes.search,
-                  pageBuilder: (context, state) => MaterialPage<void>(
+                  pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
                     child: Container(),
                   ),
                 ),
                 GoRoute(
                   path: Routes.basket,
-                  pageBuilder: (context, state) => MaterialPage<void>(
+                  pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
                     child: BasketPage(),
                   ),
                 ),
                 GoRoute(
                   path: Routes.account,
-                  pageBuilder: (context, state) => MaterialPage<void>(
+                  pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
                     child: Container(),
                   ),
@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: Routes.category,
               pageBuilder: (context, state) {
-                return MaterialPage<void>(
+                return NoTransitionPage<void>(
                   key: state.pageKey,
                   child: CategoryPage(
                     title: state.queryParameters['title'] ?? '',

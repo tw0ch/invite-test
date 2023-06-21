@@ -23,6 +23,7 @@ class BasketPage extends StatelessWidget {
             return _buildLoadedBody(
               basketItems: state.basketItems,
               state: state,
+              context: context,
             );
           } else {
             return _buildEmptyBody();
@@ -116,6 +117,7 @@ class BasketPage extends StatelessWidget {
   Widget _buildLoadedBody({
     required List<BasketItem> basketItems,
     required BasketLoadedState state,
+    required BuildContext context,
   }) {
     int finalCoast = _getFinalCost(items: basketItems);
     return Scaffold(
@@ -183,38 +185,45 @@ class BasketPage extends StatelessWidget {
                   children: [
                     SizedBox(
                       // height: double.infinity,
-                      child: ListView.separated(
-                        // shrinkWrap: true,
-                        itemBuilder: (BuildContext context, i) {
-                          return BasketItemWidget(
-                            // id: state.basketItems[i].id,
-                            imageUrl: state.basketItems[i].imageUrl,
-                            name: state.basketItems[i].name,
-                            price: state.basketItems[i].price,
-                            quantity: state.basketItems[i].quantity,
-                            weight: state.basketItems[i].weight,
-                            onAddTap: () {
-                              context.read<BasketBloc>().add(
-                                    BaksetItemAddQuantityEvent(
-                                      itemIndex: i,
-                                      items: state.basketItems,
-                                    ),
-                                  );
-                            },
-                            onRemoveTap: () {
-                              context.read<BasketBloc>().add(
-                                    BaksetItemRemoveQuantityEvent(
-                                      itemIndex: i,
-                                      items: state.basketItems,
-                                    ),
-                                  );
-                            },
-                          );
-                        },
-                        separatorBuilder: (BuildContext, int) {
-                          return Container(height: 16);
-                        },
-                        itemCount: state.basketItems.length,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: ColorScheme.fromSwatch(
+                            accentColor: AppColors.colorEFEEEC,
+                          ),
+                        ),
+                        child: ListView.separated(
+                          // shrinkWrap: true,
+                          itemBuilder: (BuildContext context, i) {
+                            return BasketItemWidget(
+                              // id: state.basketItems[i].id,
+                              imageUrl: state.basketItems[i].imageUrl,
+                              name: state.basketItems[i].name,
+                              price: state.basketItems[i].price,
+                              quantity: state.basketItems[i].quantity,
+                              weight: state.basketItems[i].weight,
+                              onAddTap: () {
+                                context.read<BasketBloc>().add(
+                                      BaksetItemAddQuantityEvent(
+                                        itemIndex: i,
+                                        items: state.basketItems,
+                                      ),
+                                    );
+                              },
+                              onRemoveTap: () {
+                                context.read<BasketBloc>().add(
+                                      BaksetItemRemoveQuantityEvent(
+                                        itemIndex: i,
+                                        items: state.basketItems,
+                                      ),
+                                    );
+                              },
+                            );
+                          },
+                          separatorBuilder: (BuildContext, int) {
+                            return Container(height: 16);
+                          },
+                          itemCount: state.basketItems.length,
+                        ),
                       ),
                     ),
                     Align(

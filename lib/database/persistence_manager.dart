@@ -31,6 +31,22 @@ class PersistenceManager {
     }
   }
 
+  Future<void> clearCategoriesCollection() async {
+    final isar = await _isarGetter;
+    final collection = isar.categoriesIsars;
+    isar.writeTxn(() async {
+      await collection.clear();
+    });
+  }
+
+  Future<void> clearDishesCollection() async {
+    final isar = await _isarGetter;
+    final collection = isar.dishesIsars;
+   isar.writeTxn(() async {
+      await collection.clear();
+    });
+  }
+
   Future<void> saveCategoriesToDb({required Categories categories}) async {
     final isar = await _isarGetter;
     for (int i = 0; i < categories.categories.length; i++) {

@@ -12,3 +12,6 @@ class HomeLoadedEvent extends HomeEvent {
     required this.categories,
   });
 }
+
+
+class RefreshItemsInDbEvent extends HomeEvent {}

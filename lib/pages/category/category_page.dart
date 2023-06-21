@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../ui/dish_card.dart';
 import '../../../utils/app_assets.dart';
@@ -33,7 +34,7 @@ class CategoryPage extends StatelessWidget {
           if (state is CategoryLoadedState) {
             return _buildLoadedBody(context, state);
           } else {
-            return _buildLoadingBody();
+            return _buildLoadingBody(context);
           }
         },
       ),
@@ -48,153 +49,175 @@ class CategoryPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: ClipOval(
-                        child: Material(
-                          color: Colors.transparent, // Button color
-                          child: InkWell(
-                            // Splash color
-                            onTap: () {
-                              context.pop();
-                            },
-                            child: SizedBox(
-                              child: Icon(
-                                AppIcons.arrow_back,
-                                size: 50,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.fromSwatch(
+                accentColor: AppColors.colorEFEEEC,
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: ClipOval(
+                          child: Material(
+                            color: Colors.transparent, // Button color
+                            child: InkWell(
+                              // Splash color
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SizedBox(
+                                child: Icon(
+                                  AppIcons.arrow_back,
+                                  size: 50,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Display',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Display',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: SizedBox(
-                        width: 44,
-                        height: 44,
-                        child: Image.asset(
-                          A.assetsHomePageAvatarImg,
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: Image.asset(
+                            A.assetsHomePageAvatarImg,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 35,
-                  child: ListView.separated(
-                    clipBehavior: Clip.antiAlias,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int i) {
-                      return TagWidget(
-                        index: i,
-                        tags: state.tags,
-                        isActive: _checkIsActiveTag(
-                          activeTagsIndexes: state.activeTagsIndexes,
-                          index: i,
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.fromSwatch(
+                          accentColor: AppColors.colorEFEEEC,
                         ),
-                        onTap: () {
-                          if (allowChanges(
-                              activeTagsIndexes: state.activeTagsIndexes,
-                              index: i)) {
-                            final activeTagsIndexes = _changeActiveTagIndexes(
+                      ),
+                      child: ListView.separated(
+                        clipBehavior: Clip.antiAlias,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int i) {
+                          return TagWidget(
+                            index: i,
+                            tags: state.tags,
+                            isActive: _checkIsActiveTag(
                               activeTagsIndexes: state.activeTagsIndexes,
                               index: i,
-                            );
-                            context.read<CategoryBloc>().add(
-                                  FilterItemsByTagEvent(
-                                    activeTagsIndexes: activeTagsIndexes,
-                                    tags: state.tags,
-                                  ),
+                            ),
+                            onTap: () {
+                              if (allowChanges(
+                                  activeTagsIndexes: state.activeTagsIndexes,
+                                  index: i)) {
+                                final activeTagsIndexes =
+                                    _changeActiveTagIndexes(
+                                  activeTagsIndexes: state.activeTagsIndexes,
+                                  index: i,
                                 );
-                          }
-                        },
-                      );
-                    },
-                    separatorBuilder: (BuildContext, int) {
-                      return Container(
-                        width: 8,
-                      );
-                    },
-                    itemCount: state.tags.length,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                LayoutGrid(
-                  columnSizes: [1.fr, 1.fr, 1.fr],
-                  columnGap: 8,
-                  rowSizes: List.generate(
-                    state.dishes.dishes.length ~/ 2 + 1,
-                    (index) => auto,
-                  ),
-                  rowGap: 14,
-                  children: List.generate(
-                    state.dishes.dishes.length,
-                    (index) => DishWidget(
-                      title: state.dishes.dishes[index].name,
-                      imgUrl: state.dishes.dishes[index].imageUrl,
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return _buildDetailWidget(
-                              context: context,
-                              id: index,
-                              price: state.dishes.dishes[index].price.toInt(),
-                              description:
-                                  state.dishes.dishes[index].description,
-                              imgUrl: state.dishes.dishes[index].imageUrl,
-                              title: state.dishes.dishes[index].name,
-                              weight: state.dishes.dishes[index].weight.toInt(),
-                              onTap: () {
                                 context.read<CategoryBloc>().add(
-                                      AddItemInBasketEvent(
-                                        id: state.dishes.dishes[index].id,
-                                        name: state.dishes.dishes[index].name,
-                                        price: state.dishes.dishes[index].price
-                                            .toInt(),
-                                        weight: state
-                                            .dishes.dishes[index].weight
-                                            .toInt(),
-                                        quantity: 1,
-                                        imageUrl:
-                                            state.dishes.dishes[index].imageUrl,
+                                      FilterItemsByTagEvent(
+                                        activeTagsIndexes: activeTagsIndexes,
+                                        tags: state.tags,
                                       ),
                                     );
-                                context.pop();
-                              },
-                            );
-                          },
-                        );
-                      },
+                              }
+                            },
+                          );
+                        },
+                        separatorBuilder: (BuildContext, int) {
+                          return Container(
+                            width: 8,
+                          );
+                        },
+                        itemCount: state.tags.length,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  LayoutGrid(
+                    columnSizes: [1.fr, 1.fr, 1.fr],
+                    columnGap: 8,
+                    rowSizes: List.generate(
+                      state.dishes.dishes.length ~/ 2 + 1,
+                      (index) => auto,
+                    ),
+                    rowGap: 14,
+                    children: List.generate(
+                      state.dishes.dishes.length,
+                      (index) => DishWidget(
+                        title: state.dishes.dishes[index].name,
+                        imgUrl: state.dishes.dishes[index].imageUrl,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return _buildDetailWidget(
+                                context: context,
+                                id: index,
+                                price: state.dishes.dishes[index].price
+                                    .toInt(),
+                                description:
+                                    state.dishes.dishes[index].description,
+                                imgUrl: state.dishes.dishes[index].imageUrl,
+                                title: state.dishes.dishes[index].name,
+                                weight: state.dishes.dishes[index].weight
+                                    .toInt(),
+                                onTap: () {
+                                  context.read<CategoryBloc>().add(
+                                        AddItemInBasketEvent(
+                                          id: state.dishes.dishes[index].id,
+                                          name: state
+                                              .dishes.dishes[index].name,
+                                          price: state
+                                              .dishes.dishes[index].price
+                                              .toInt(),
+                                          weight: state
+                                              .dishes.dishes[index].weight
+                                              .toInt(),
+                                          quantity: 1,
+                                          imageUrl: state.dishes
+                                              .dishes[index].imageUrl,
+                                        ),
+                                      );
+                                  context.pop();
+                                },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -206,7 +229,7 @@ class CategoryPage extends StatelessWidget {
     required List<int> activeTagsIndexes,
     required int index,
   }) {
-      return true;
+    return true;
   }
 
   List<int> _changeActiveTagIndexes({
@@ -404,8 +427,154 @@ class CategoryPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingBody() {
-    return Container(color: Colors.transparent);
+  Widget _buildLoadingBody(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.fromSwatch(
+                accentColor: AppColors.colorEFEEEC,
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: ClipOval(
+                          child: Material(
+                            color: Colors.transparent, // Button color
+                            child: InkWell(
+                              // Splash color
+                              onTap: () {},
+                              child: SizedBox(
+                                child: Icon(
+                                  AppIcons.arrow_back,
+                                  size: 50,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Display',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: Image.asset(
+                            A.assetsHomePageAvatarImg,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 35,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.fromSwatch(
+                          accentColor: AppColors.colorEFEEEC,
+                        ),
+                      ),
+                      child: ListView.separated(
+                        clipBehavior: Clip.antiAlias,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int i) {
+                          return Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              width: 100,
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext, int) {
+                          return Container(
+                            width: 8,
+                          );
+                        },
+                        itemCount: 3,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.fromSwatch(
+                        accentColor: AppColors.colorEFEEEC,
+                      ),
+                      splashColor: AppColors.colorEFEEEC,
+                    ),
+                    child: GlowingOverscrollIndicator(
+                      axisDirection: AxisDirection.down,
+                      color: AppColors.colorEFEEEC,
+                      child: LayoutGrid(
+                        columnSizes: [1.fr, 1.fr, 1.fr],
+                        columnGap: 8,
+                        rowSizes: List.generate(
+                          3,
+                          (index) => auto,
+                        ),
+                        rowGap: 14,
+                        children: List.generate(
+                          5,
+                          (index) => Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              width: double.infinity,
+                              height: 109,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
