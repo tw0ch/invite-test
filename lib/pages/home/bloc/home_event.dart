@@ -16,3 +16,5 @@ class HomeLoadedEvent extends HomeEvent {
 }
 
 class RefreshItemsInDbEvent extends HomeEvent {}
+
+class HomeLoadingErrorEvent extends HomeEvent {}

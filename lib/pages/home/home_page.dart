@@ -26,8 +26,10 @@ class HomePage extends StatelessWidget {
             return _buildLoadingBody(context);
           } else if (state is HomeLoadedState) {
             return _buildLoadedBody(context, state);
+          } else if (state is HomeLoadingErrorState) {
+            return _buildErrorBody(context);
           } else {
-            return _buildErrorBody();
+            return _buildErrorBody(context);
           }
         },
       ),
@@ -252,9 +254,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorBody() {
-    return Container(
-      color: Colors.red,
+  Widget _buildErrorBody(BuildContext context) {
+    return Center(
+      child: IconButton(
+        icon: Icon(Icons.refresh),
+        onPressed: () {
+          context.read<HomeBloc>().add(HomeLoadingEvent());
+        },
+      ),
     );
   }
 }

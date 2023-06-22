@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
@@ -10,7 +8,6 @@ import '../../../models/user.dart';
 import '../../../models/сategories.dart';
 import '../../../service/categories_service.dart';
 import '../../../service/dishes_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../service/geolocation_service.dart';
@@ -28,9 +25,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       } else if (event is HomeLoadingEvent) {
         emit(HomeLoadingState());
-        // _initHomePage();
+        _initHomePage();
       } else if (event is RefreshItemsInDbEvent) {
         _refreshItemsInDb();
+      } else if (event is HomeLoadingErrorEvent) {
+        emit(HomeLoadingErrorState());
       }
     });
     _initHomePage();
@@ -48,11 +47,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       );
     } else {
       try {
+        print('start fetch data');
         String? _currentAddress =
             await GeolocationService.g.getCurrentPosition();
+        print('fetched _currentAddress data ${_currentAddress == null}');
         Categories? _categories = await CategoriesService().getAllCategories();
+        print('fetched _categories data ${_categories == null}');
         Dishes? _dishes = await DishesService().getAllDishes();
+        print('fetched _dishes data ${_dishes == null}');
         if (_categories != null && _dishes != null) {
+          print('get fetch data');
           PersistenceManager.p.saveCategoriesToDb(
             categories: _categories,
           );
@@ -60,17 +64,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             dishes: _dishes,
           );
           PersistenceManager.p.saveUserInfoToDb(
-            currentAddress: _currentAddress ?? 'unknow',
+            currentAddress: _currentAddress ?? 'Санкт-Петербург',
           );
           add(
             HomeLoadedEvent(
               categories: _categories,
               userInfo: UserInfo(
-                currentAddress: _currentAddress ?? 'unknow',
+                currentAddress: _currentAddress ?? 'Санкт-Петербург',
                 id: 0,
               ),
             ),
           );
+        } else {
+          add(HomeLoadingErrorEvent());
         }
       } catch (e) {
         debugPrint('Error - get categories');

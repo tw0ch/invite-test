@@ -16,3 +16,5 @@ class HomeLoadedState extends HomeState {
     required this.userInfo,
   });
 }
+
+class HomeLoadingErrorState extends HomeState {}

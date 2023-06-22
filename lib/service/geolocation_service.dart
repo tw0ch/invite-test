@@ -12,14 +12,8 @@ class GeolocationService {
     if (!hasPermission) {
       return null;
     }
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      _currentPosition = position;
-      _getAddressFromLatLng(_currentPosition!);
-    }).catchError((e) {
-      print(e);
-      return null;
-    });
+    Position _currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+        await _getAddressFromLatLng(_currentPosition);
     return _currentAddress;
   }
 
@@ -49,13 +43,12 @@ class GeolocationService {
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      _currentAddress = '${place.street} ${place.subAdministrativeArea}';
-    }).catchError((e) {
+    try {
+      List<Placemark> place = await placemarkFromCoordinates(
+          position.latitude, position.longitude);
+      _currentAddress = '${place[0].street} ${place[0].subAdministrativeArea}';
+    } catch (e) {
       print(e);
-    });
+    }
   }
 }

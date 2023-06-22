@@ -49,7 +49,6 @@ class PersistenceManager {
   Future<Categories?> getCategoriesFromDb() async {
     final isar = await _isarGetter;
     final items = await isar.categoriesIsars.where().findAll();
-    print('items length - ${items.length}');
     Categories categories;
     List<Category> categoryList = [];
     for (int i = 0; i < items.length; i++) {
