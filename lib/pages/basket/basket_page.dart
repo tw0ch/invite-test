@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../models/basket_item.dart';
-import '../../service/geolocation_service.dart';
 import '../../ui/buttons.dart';
 import '../../ui/cached_img.dart';
 import '../../utils/app_assets.dart';
@@ -45,50 +43,48 @@ class BasketPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            children: [
-              SizedBox(
+            children: <Widget>[
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            AppIcons.location,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(
+                          AppIcons.location,
+                        ),
+                      ),
+                      const SizedBox(width: 8.5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${state.userInfo.currentAddress}',
+                            style: const TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8.5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${state.userInfo.currentAddress}',
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Display',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          Text(
+                            '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
                             ),
-                            Text(
-                              '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Display',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Container(
+                  SizedBox(
                     width: 44,
                     height: 44,
                     child: Image.asset(
@@ -97,7 +93,7 @@ class BasketPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 23,
               ),
               Expanded(
@@ -132,50 +128,48 @@ class BasketPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            children: [
-              SizedBox(
+            children: <Widget>[
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            AppIcons.location,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(
+                          AppIcons.location,
+                        ),
+                      ),
+                      const SizedBox(width: 8.5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${state.userInfo.currentAddress}',
+                            style: const TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8.5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${state.userInfo.currentAddress}',
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Display',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          Text(
+                            '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black.withOpacity(0.5),
                             ),
-                            Text(
-                              '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Display',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  Container(
+                  SizedBox(
                     width: 44,
                     height: 44,
                     child: Image.asset(
@@ -184,14 +178,13 @@ class BasketPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 23,
               ),
               Expanded(
                 child: Stack(
-                  children: [
+                  children: <Widget>[
                     SizedBox(
-                      // height: double.infinity,
                       child: Theme(
                         data: Theme.of(context).copyWith(
                           colorScheme: ColorScheme.fromSwatch(
@@ -199,10 +192,8 @@ class BasketPage extends StatelessWidget {
                           ),
                         ),
                         child: ListView.separated(
-                          // shrinkWrap: true,
                           itemBuilder: (BuildContext context, i) {
                             return BasketItemWidget(
-                              // id: state.basketItems[i].id,
                               imageUrl: state.basketItems[i].imageUrl,
                               name: state.basketItems[i].name,
                               price: state.basketItems[i].price,
@@ -234,7 +225,7 @@ class BasketPage extends StatelessWidget {
                       ),
                     ),
                     Align(
-                      alignment: Alignment(0, 0.95),
+                      alignment: const Alignment(0, 0.95),
                       child: PrimaryButton(
                         onTap: () {},
                         child: Text(
@@ -264,65 +255,63 @@ class BasketPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            children: [
-              SizedBox(
+            children: <Widget>[
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            AppIcons.location,
+                  Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(
+                          AppIcons.location,
+                        ),
+                      ),
+                      const SizedBox(width: 8.5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              height: 20,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8.5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Shimmer.fromColors(
-                              baseColor: AppColors.colorF8F7F5,
-                              highlightColor:
-                                  AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Container(
-                                height: 20,
-                                width: 145,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorF8F7F5,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              height: 16,
+                              width: 106,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Shimmer.fromColors(
-                              baseColor: AppColors.colorF8F7F5,
-                              highlightColor:
-                                  AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Container(
-                                height: 16,
-                                width: 106,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorF8F7F5,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   Shimmer.fromColors(
                     baseColor: AppColors.colorF8F7F5,
                     highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
-                    child: Container(
+                    child: SizedBox(
                       width: 44,
                       height: 44,
                       child: Image.asset(A.assetsHomePageAvatarImg),
@@ -330,7 +319,7 @@ class BasketPage extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 23,
               ),
               Expanded(
@@ -343,7 +332,6 @@ class BasketPage extends StatelessWidget {
                       ),
                     ),
                     child: ListView.separated(
-                      // shrinkWrap: true,
                       itemBuilder: (BuildContext context, i) {
                         return Shimmer.fromColors(
                           baseColor: AppColors.colorF8F7F5,
@@ -384,7 +372,6 @@ class BasketPage extends StatelessWidget {
 }
 
 class BasketItemWidget extends StatefulWidget {
-  // final int id;
   final String name;
   final int price;
   final int weight;
@@ -395,7 +382,6 @@ class BasketItemWidget extends StatefulWidget {
 
   const BasketItemWidget({
     super.key,
-    // required this.id,
     required this.name,
     required this.price,
     required this.weight,
@@ -412,115 +398,113 @@ class BasketItemWidget extends StatefulWidget {
 class _BasketItemWidgetState extends State<BasketItemWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 62,
-            height: 62,
-            decoration: BoxDecoration(
-              color: AppColors.colorF8F7F5,
-              borderRadius: BorderRadius.circular(6),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: 62,
+          height: 62,
+          decoration: BoxDecoration(
+            color: AppColors.colorF8F7F5,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: CathedNetworkImgWidget(imgUrl: widget.imageUrl),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '${widget.name}',
+              style: const TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-            child: CathedNetworkImgWidget(imgUrl: widget.imageUrl),
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${widget.name}',
-                style: TextStyle(
-                  fontFamily: 'SF Pro Display',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+            Row(
+              children: <Widget>[
+                Text(
+                  '${widget.price} ₽',
+                  style: const TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              Row(
-                children: [
-                  Text(
-                    '${widget.price} ₽',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
+                Text(
+                  ' · ${widget.weight}г',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black.withOpacity(0.4),
                   ),
-                  Text(
-                    ' · ${widget.weight}г',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black.withOpacity(0.4),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Spacer(),
-          Container(
-            width: 100,
-            height: 32,
-            decoration: BoxDecoration(
-              color: AppColors.colorEFEEEC,
-              borderRadius: BorderRadius.circular(
-                10,
-              ),
+                ),
+              ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ClipOval(
-                    child: Material(
-                      color: Colors.transparent, // Button color
-                      child: InkWell(
-                        // Splash color
-                        onTap: widget.onRemoveTap,
-                        child: SizedBox(
-                          child: Icon(
-                            AppIcons.decrement,
-                          ),
+          ],
+        ),
+        const Spacer(),
+        Container(
+          width: 100,
+          height: 32,
+          decoration: BoxDecoration(
+            color: AppColors.colorEFEEEC,
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ClipOval(
+                  child: Material(
+                    color: Colors.transparent, // Button color
+                    child: InkWell(
+                      // Splash color
+                      onTap: widget.onRemoveTap,
+                      child: const SizedBox(
+                        child: Icon(
+                          AppIcons.decrement,
                         ),
                       ),
                     ),
                   ),
-                  Text(
-                    '${widget.quantity}',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
+                ),
+                Text(
+                  '${widget.quantity}',
+                  style: const TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
                   ),
-                  ClipOval(
-                    child: Material(
-                      color: Colors.transparent, // Button color
-                      child: InkWell(
-                        // Splash color
-                        onTap: widget.onAddTap,
-                        child: SizedBox(
-                          child: Icon(
-                            AppIcons.increment,
-                          ),
+                ),
+                ClipOval(
+                  child: Material(
+                    color: Colors.transparent, // Button color
+                    child: InkWell(
+                      // Splash color
+                      onTap: widget.onAddTap,
+                      child: const SizedBox(
+                        child: Icon(
+                          AppIcons.increment,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

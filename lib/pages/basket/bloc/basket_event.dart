@@ -32,11 +32,3 @@ class BaksetItemRemoveQuantityEvent extends BasketEvent {
     required this.items,
   });
 }
-
-// class BasketEmptyEvent extends BasketEvent {
-//   final UserInfo userInfo;
-
-//   BasketEmptyEvent({
-//     required this.userInfo,
-//   });
-// }

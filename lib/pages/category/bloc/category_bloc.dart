@@ -77,7 +77,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
             CategoryLoadedEvent(
               dishes: _dishes,
               tags: _tags,
-              activeTagsIndexes: [0],
+              activeTagsIndexes: const [0],
             ),
           );
         }
@@ -114,6 +114,5 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       quantity: quantity,
       imageUrl: imageUrl,
     );
-    print('save item - ${name} in basketDB success.');
   }
 }

@@ -1,5 +1,4 @@
 import 'package:invite_application/models/%D1%81ategories.dart';
-import 'package:invite_application/pages/basket/basket_page.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -22,7 +21,7 @@ class PersistenceManager {
       return _isar!;
     } else {
       _isar ??= await Isar.open(
-        [
+        <CollectionSchema<dynamic>>[
           CategoriesIsarSchema,
           DishesIsarSchema,
           BasketItemIsarSchema,
@@ -50,7 +49,7 @@ class PersistenceManager {
     final isar = await _isarGetter;
     final items = await isar.categoriesIsars.where().findAll();
     Categories categories;
-    List<Category> categoryList = [];
+    List<Category> categoryList = <Category>[];
     for (int i = 0; i < items.length; i++) {
       categoryList.add(
         Category(
@@ -123,9 +122,8 @@ class PersistenceManager {
           )
           .findAll();
     }
-    print('filtered dishesIsars length - ${items.length}');
     Dishes dishes;
-    List<Dish> dishList = [];
+    List<Dish> dishList = <Dish>[];
 
     for (int i = 0; i < items.length; i++) {
       final List<String> tags = items[i].tags ?? [];
@@ -156,7 +154,7 @@ class PersistenceManager {
     List<Dish> dishList = [];
 
     for (int i = 0; i < items.length; i++) {
-      final List<String> tags = items[i].tags ?? [];
+      final List<String> tags = items[i].tags ?? <String>[];
       dishList.add(
         Dish(
           id: items[i].id,
@@ -216,7 +214,7 @@ class PersistenceManager {
     final isar = await _isarGetter;
     final items = await isar.basketItemIsars.where().findAll();
 
-    List<BasketItem> basketItemsList = [];
+    List<BasketItem> basketItemsList = <BasketItem>[];
     for (int i = 0; i < items.length; i++) {
       basketItemsList.add(
         BasketItem(
@@ -277,17 +275,16 @@ class PersistenceManager {
     final List<UserIsar>? item = await isar.userIsars.where().findAll();
     if (item != null && item.isNotEmpty) {
       var userInfo = UserInfo(
-      currentAddress: item.first.currentAddress ?? 'unknow',
-      id: item.first.id,
-    );
-    return userInfo;
+        currentAddress: item.first.currentAddress ?? 'Санкт-Петербург',
+        id: item.first.id,
+      );
+      return userInfo;
     } else {
       return null;
     }
-    
   }
 
-   Future<void> clearUserInfoCollection() async {
+  Future<void> clearUserInfoCollection() async {
     final isar = await _isarGetter;
     final collection = isar.userIsars;
     isar.writeTxn(() async {

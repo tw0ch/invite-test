@@ -47,16 +47,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       );
     } else {
       try {
-        print('start fetch data');
         String? _currentAddress =
             await GeolocationService.g.getCurrentPosition();
-        print('fetched _currentAddress data ${_currentAddress == null}');
         Categories? _categories = await CategoriesService().getAllCategories();
-        print('fetched _categories data ${_categories == null}');
         Dishes? _dishes = await DishesService().getAllDishes();
-        print('fetched _dishes data ${_dishes == null}');
         if (_categories != null && _dishes != null) {
-          print('get fetch data');
           PersistenceManager.p.saveCategoriesToDb(
             categories: _categories,
           );

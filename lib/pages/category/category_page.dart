@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
@@ -59,12 +56,12 @@ class CategoryPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 7,
                   ),
                   Stack(
                     alignment: Alignment.center,
-                    children: [
+                    children: <Widget>[
                       Align(
                         alignment: Alignment.centerLeft,
                         child: ClipOval(
@@ -75,7 +72,7 @@ class CategoryPage extends StatelessWidget {
                               onTap: () {
                                 context.pop();
                               },
-                              child: SizedBox(
+                              child: const SizedBox(
                                 child: Icon(
                                   AppIcons.arrow_back,
                                   size: 50,
@@ -89,7 +86,7 @@ class CategoryPage extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'SF Pro Display',
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -108,7 +105,7 @@ class CategoryPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   SizedBox(
@@ -159,7 +156,7 @@ class CategoryPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   LayoutGrid(
@@ -282,7 +279,7 @@ class CategoryPage extends StatelessWidget {
     required BuildContext context,
   }) {
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 16.0),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
@@ -292,9 +289,9 @@ class CategoryPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize:
               MainAxisSize.min, // Adjusts the height based on its children
-          children: [
+          children: <Widget>[
             Stack(
-              children: [
+              children: <Widget>[
                 Container(
                   height: 232,
                   width: double.infinity,
@@ -314,7 +311,7 @@ class CategoryPage extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
+                    children: <Widget>[
                       Container(
                         width: 40,
                         height: 40,
@@ -327,16 +324,14 @@ class CategoryPage extends StatelessWidget {
                           child: InkWell(
                             onTap: () {},
                             borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              child: Icon(
-                                AppIcons.like,
-                                size: 20,
-                              ),
+                            child: const Icon(
+                              AppIcons.like,
+                              size: 20,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 8,
                       ),
                       Container(
@@ -353,10 +348,8 @@ class CategoryPage extends StatelessWidget {
                               context.pop();
                             },
                             borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              child: Icon(
-                                AppIcons.close,
-                              ),
+                            child: const Icon(
+                              AppIcons.close,
                             ),
                           ),
                         ),
@@ -366,21 +359,21 @@ class CategoryPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'SF Pro Display',
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Text(
                   '${price} ₽ ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'SF Pro Display',
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
@@ -388,7 +381,7 @@ class CategoryPage extends StatelessWidget {
                 ),
                 Text(
                   '· ${weight}г',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'SF Pro Display',
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
@@ -396,24 +389,24 @@ class CategoryPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Flexible(
               // Use Flexible widget to allow the text to wrap
               child: Text(
                 '${description}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'SF Pro Display',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             PrimaryButton(
               onTap: onTap,
               child: Text(
                 'Добавить в корзину',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'SF Pro Display',
                   fontWeight: FontWeight.w500,
@@ -441,13 +434,13 @@ class CategoryPage extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
+                children: <Widget>[
+                  const SizedBox(
                     height: 7,
                   ),
                   Stack(
                     alignment: Alignment.center,
-                    children: [
+                    children: <Widget>[
                       Align(
                         alignment: Alignment.centerLeft,
                         child: ClipOval(
@@ -456,7 +449,7 @@ class CategoryPage extends StatelessWidget {
                             child: InkWell(
                               // Splash color
                               onTap: () {},
-                              child: SizedBox(
+                              child: const SizedBox(
                                 child: Icon(
                                   AppIcons.arrow_back,
                                   size: 50,
@@ -470,7 +463,7 @@ class CategoryPage extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'SF Pro Display',
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -528,7 +521,7 @@ class CategoryPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Theme(

@@ -28,12 +28,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
           itemIndex: event.itemIndex,
           items: event.items,
         );
-      } 
-      //else if (event is BasketEmptyEvent) {
-      //   emit(BasketEmptyState(
-      //     userInfo: event.userInfo,
-      //   ));
-      // }
+      }
     });
     _initBasketPage();
   }
@@ -54,21 +49,13 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     } else if (savedData == null && savedUserData != null) {
       add(
         BasketLoadedEvent(
-          basketItems: [],
+          basketItems: const <BasketItem>[],
           userInfo: UserInfo(
             currentAddress: savedUserData.currentAddress,
             id: 0,
           ),
         ),
       );
-      // add(
-      //   BasketEmptyEvent(
-      //     userInfo: UserInfo(
-      //       currentAddress: savedUserData.currentAddress,
-      //       id: 0,
-      //     ),
-      //   ),
-      // );
     }
   }
 

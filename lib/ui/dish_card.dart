@@ -1,10 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:invite_application/pages/detail/detail_page.dart';
 import 'package:invite_application/utils/app_colors.dart';
 
-import '../common_setup/routes.dart';
 import 'cached_img.dart';
 
 class DishWidget extends StatelessWidget {
@@ -21,58 +17,56 @@ class DishWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 109,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: CathedNetworkImgWidget(imgUrl: imgUrl),
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.colorF8F7F5,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 5.0,
-                  horizontal: 1,
-                ),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        title,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Display',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Positioned.fill(
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
+    return Stack(
+      children: <Widget>[
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 109,
+              decoration: BoxDecoration(
+                color: AppColors.colorF8F7F5,
                 borderRadius: BorderRadius.circular(10),
-                onTap: onTap,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: CathedNetworkImgWidget(imgUrl: imgUrl),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 5.0,
+                horizontal: 1,
+              ),
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: onTap,
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

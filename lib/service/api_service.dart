@@ -6,7 +6,6 @@ abstract class ApiService {
   static Future<dynamic>? getRequest({required String request}) async {
     try {
       var response = await Dio().get('$url/$request');
-      print(response);
       if (response.statusCode == 200) {
         return response.data;
       }

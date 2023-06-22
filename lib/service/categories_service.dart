@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-
-import '../database/persistence_manager.dart';
 import '../models/сategories.dart';
 import 'api_service.dart';
 
