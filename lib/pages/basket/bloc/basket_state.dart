@@ -7,10 +7,17 @@ class BasketInitial extends BasketState {}
 
 class BasketLoadedState extends BasketState {
   final List<BasketItem> basketItems;
+  final UserInfo userInfo;
 
   BasketLoadedState({
     required this.basketItems,
+    required this.userInfo,
   });
 }
 
-class BasketLoadingState extends BasketState {}
+class BasketEmptyState extends BasketState {
+  final UserInfo userInfo;
+  BasketEmptyState({
+    required this.userInfo,
+  });
+}

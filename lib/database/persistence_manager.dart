@@ -8,6 +8,8 @@ import '../models/basket_item_isar.dart';
 import '../models/categories_isar.dart';
 import '../models/dishes.dart';
 import '../models/dishes_isar.dart';
+import '../models/user.dart';
+import '../models/user_isar.dart';
 
 class PersistenceManager {
   static final p = PersistenceManager();
@@ -24,27 +26,12 @@ class PersistenceManager {
           CategoriesIsarSchema,
           DishesIsarSchema,
           BasketItemIsarSchema,
+          UserIsarSchema,
         ],
         directory: appDir.path,
       );
       return _isar!;
     }
-  }
-
-  Future<void> clearCategoriesCollection() async {
-    final isar = await _isarGetter;
-    final collection = isar.categoriesIsars;
-    isar.writeTxn(() async {
-      await collection.clear();
-    });
-  }
-
-  Future<void> clearDishesCollection() async {
-    final isar = await _isarGetter;
-    final collection = isar.dishesIsars;
-   isar.writeTxn(() async {
-      await collection.clear();
-    });
   }
 
   Future<void> saveCategoriesToDb({required Categories categories}) async {
@@ -96,6 +83,22 @@ class PersistenceManager {
         isar.dishesIsars.put(isarDish);
       });
     }
+  }
+
+  Future<void> clearCategoriesCollection() async {
+    final isar = await _isarGetter;
+    final collection = isar.categoriesIsars;
+    isar.writeTxn(() async {
+      await collection.clear();
+    });
+  }
+
+  Future<void> clearDishesCollection() async {
+    final isar = await _isarGetter;
+    final collection = isar.dishesIsars;
+    isar.writeTxn(() async {
+      await collection.clear();
+    });
   }
 
   Future<Dishes?> getFilteredDishesFromDb({
@@ -260,5 +263,36 @@ class PersistenceManager {
         });
       }
     }
+  }
+
+  Future<void> saveUserInfoToDb({required String currentAddress}) async {
+    final isar = await _isarGetter;
+    final isarUser = UserIsar()..currentAddress = currentAddress;
+    isar.writeTxn(() async {
+      isar.userIsars.put(isarUser);
+    });
+  }
+
+  Future<UserInfo?> getUserInfoFromDb() async {
+    final isar = await _isarGetter;
+    final List<UserIsar>? item = await isar.userIsars.where().findAll();
+    if (item != null && item.isNotEmpty) {
+      var userInfo = UserInfo(
+      currentAddress: item.first.currentAddress ?? 'unknow',
+      id: item.first.id,
+    );
+    return userInfo;
+    } else {
+      return null;
+    }
+    
+  }
+
+   Future<void> clearUserInfoCollection() async {
+    final isar = await _isarGetter;
+    final collection = isar.userIsars;
+    isar.writeTxn(() async {
+      await collection.clear();
+    });
   }
 }

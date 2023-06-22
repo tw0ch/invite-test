@@ -9,8 +9,10 @@ class HomeLoadingState extends HomeState {}
 
 class HomeLoadedState extends HomeState {
   final Categories categories;
-  
+  final UserInfo userInfo;
+
   HomeLoadedState({
     required this.categories,
+    required this.userInfo,
   });
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:invite_application/utils/app_icons_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -34,6 +35,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildLoadedBody(BuildContext context, HomeLoadedState state) {
+    DateTime date = DateTime.now();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -62,7 +64,9 @@ class HomePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Санкт-Петербург',
+                              '${state.userInfo.currentAddress}',
+                              maxLines: 1,
+                              overflow: TextOverflow.fade,
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 18,
@@ -70,7 +74,7 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '12 Августа, 2023',
+                              '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 14,
@@ -151,53 +155,51 @@ class HomePage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: Icon(
-                            AppIcons.location,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: Icon(
+                          AppIcons.location,
+                        ),
+                      ),
+                      SizedBox(width: 8.5),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              height: 20,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8.5),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Shimmer.fromColors(
-                              baseColor: AppColors.colorF8F7F5,
-                              highlightColor:
-                                  AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Container(
-                                height: 20,
-                                width: 145,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorF8F7F5,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Shimmer.fromColors(
+                            baseColor: AppColors.colorF8F7F5,
+                            highlightColor:
+                                AppColors.colorA5A9B2.withOpacity(0.3),
+                            child: Container(
+                              height: 16,
+                              width: 106,
+                              decoration: BoxDecoration(
+                                color: AppColors.colorF8F7F5,
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Shimmer.fromColors(
-                              baseColor: AppColors.colorF8F7F5,
-                              highlightColor:
-                                  AppColors.colorA5A9B2.withOpacity(0.3),
-                              child: Container(
-                                height: 16,
-                                width: 106,
-                                decoration: BoxDecoration(
-                                  color: AppColors.colorF8F7F5,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   Shimmer.fromColors(
                     baseColor: AppColors.colorF8F7F5,

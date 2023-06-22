@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../../../database/persistence_manager.dart';
 import '../../../models/basket_item.dart';
+import '../../../models/user.dart';
 
 part 'basket_event.dart';
 part 'basket_state.dart';
@@ -14,6 +15,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
         emit(
           BasketLoadedState(
             basketItems: event.basketItems,
+            userInfo: event.userInfo,
           ),
         );
       } else if (event is BaksetItemAddQuantityEvent) {
@@ -26,20 +28,47 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
           itemIndex: event.itemIndex,
           items: event.items,
         );
-        // _initBasketPage();
-      }
+      } 
+      //else if (event is BasketEmptyEvent) {
+      //   emit(BasketEmptyState(
+      //     userInfo: event.userInfo,
+      //   ));
+      // }
     });
     _initBasketPage();
   }
 
   Future<void> _initBasketPage() async {
     final savedData = await PersistenceManager.p.getListBasketItemsFromDb();
-    if (savedData != null) {
+    final savedUserData = await PersistenceManager.p.getUserInfoFromDb();
+    if (savedData != null && savedUserData != null) {
       add(
         BasketLoadedEvent(
           basketItems: savedData,
+          userInfo: UserInfo(
+            currentAddress: savedUserData.currentAddress,
+            id: 0,
+          ),
         ),
       );
+    } else if (savedData == null && savedUserData != null) {
+      add(
+        BasketLoadedEvent(
+          basketItems: [],
+          userInfo: UserInfo(
+            currentAddress: savedUserData.currentAddress,
+            id: 0,
+          ),
+        ),
+      );
+      // add(
+      //   BasketEmptyEvent(
+      //     userInfo: UserInfo(
+      //       currentAddress: savedUserData.currentAddress,
+      //       id: 0,
+      //     ),
+      //   ),
+      // );
     }
   }
 
@@ -50,10 +79,16 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     await PersistenceManager.p.addQuantityBasketItem(
       id: items[itemIndex].id,
     );
+    final savedUserData = await PersistenceManager.p.getUserInfoFromDb();
+
     items[itemIndex].quantity = items[itemIndex].quantity + 1;
     add(
       BasketLoadedEvent(
         basketItems: items,
+        userInfo: UserInfo(
+          currentAddress: savedUserData?.currentAddress ?? 'Санкт-Петербург',
+          id: 0,
+        ),
       ),
     );
   }
@@ -65,6 +100,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     await PersistenceManager.p.removeQuantityBasketItem(
       id: items[itemIndex].id,
     );
+    final savedUserData = await PersistenceManager.p.getUserInfoFromDb();
 
     if (items[itemIndex].quantity > 1) {
       items[itemIndex].quantity = items[itemIndex].quantity - 1;
@@ -74,6 +110,10 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     add(
       BasketLoadedEvent(
         basketItems: items,
+        userInfo: UserInfo(
+          currentAddress: savedUserData?.currentAddress ?? 'Санкт-Петербург',
+          id: 0,
+        ),
       ),
     );
   }

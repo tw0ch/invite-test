@@ -7,11 +7,12 @@ class HomeLoadingEvent extends HomeEvent {}
 
 class HomeLoadedEvent extends HomeEvent {
   final Categories categories;
+  final UserInfo userInfo;
 
   HomeLoadedEvent({
     required this.categories,
+    required this.userInfo,
   });
 }
-
 
 class RefreshItemsInDbEvent extends HomeEvent {}

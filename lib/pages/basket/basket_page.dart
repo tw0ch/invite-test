@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../models/basket_item.dart';
+import '../../service/geolocation_service.dart';
 import '../../ui/buttons.dart';
 import '../../ui/cached_img.dart';
 import '../../utils/app_assets.dart';
@@ -25,15 +28,18 @@ class BasketPage extends StatelessWidget {
               state: state,
               context: context,
             );
+          } else if (state is BasketLoadedState && state.basketItems.isEmpty) {
+            return _buildEmptyBody(state: state);
           } else {
-            return _buildEmptyBody();
+            return _buildLoadingBody(context);
           }
         },
       ),
     );
   }
 
-  Widget _buildEmptyBody() {
+  Widget _buildEmptyBody({required BasketLoadedState state}) {
+    DateTime date = DateTime.now();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -61,7 +67,7 @@ class BasketPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Санкт-Петербург',
+                              '${state.userInfo.currentAddress}',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 18,
@@ -69,7 +75,7 @@ class BasketPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '12 Августа, 2023',
+                              '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 14,
@@ -120,6 +126,7 @@ class BasketPage extends StatelessWidget {
     required BuildContext context,
   }) {
     int finalCoast = _getFinalCost(items: basketItems);
+    DateTime date = DateTime.now();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -147,7 +154,7 @@ class BasketPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Санкт-Петербург',
+                              '${state.userInfo.currentAddress}',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 18,
@@ -155,7 +162,7 @@ class BasketPage extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '12 Августа, 2023',
+                              '${date.day} ${DateFormat('MMMM').format(DateTime(0, date.month))} ${date.year}',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontSize: 14,
@@ -242,6 +249,122 @@ class BasketPage extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLoadingBody(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            AppIcons.location,
+                          ),
+                        ),
+                        SizedBox(width: 8.5),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: AppColors.colorF8F7F5,
+                              highlightColor:
+                                  AppColors.colorA5A9B2.withOpacity(0.3),
+                              child: Container(
+                                height: 20,
+                                width: 145,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorF8F7F5,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Shimmer.fromColors(
+                              baseColor: AppColors.colorF8F7F5,
+                              highlightColor:
+                                  AppColors.colorA5A9B2.withOpacity(0.3),
+                              child: Container(
+                                height: 16,
+                                width: 106,
+                                decoration: BoxDecoration(
+                                  color: AppColors.colorF8F7F5,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Shimmer.fromColors(
+                    baseColor: AppColors.colorF8F7F5,
+                    highlightColor: AppColors.colorA5A9B2.withOpacity(0.3),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      child: Image.asset(A.assetsHomePageAvatarImg),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 23,
+              ),
+              Expanded(
+                child: SizedBox(
+                  // height: double.infinity,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.fromSwatch(
+                        accentColor: AppColors.colorEFEEEC,
+                      ),
+                    ),
+                    child: ListView.separated(
+                      // shrinkWrap: true,
+                      itemBuilder: (BuildContext context, i) {
+                        return Shimmer.fromColors(
+                          baseColor: AppColors.colorF8F7F5,
+                          highlightColor:
+                              AppColors.colorA5A9B2.withOpacity(0.3),
+                          child: Container(
+                            width: double.infinity,
+                            height: 62,
+                            decoration: BoxDecoration(
+                              color: AppColors.colorF8F7F5,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext, int) {
+                        return Container(height: 16);
+                      },
+                      itemCount: 3,
+                    ),
+                  ),
                 ),
               )
             ],

@@ -5,9 +5,11 @@ abstract class BasketEvent {}
 
 class BasketLoadedEvent extends BasketEvent {
   final List<BasketItem> basketItems;
+  final UserInfo userInfo;
 
   BasketLoadedEvent({
     required this.basketItems,
+    required this.userInfo,
   });
 }
 
@@ -30,3 +32,11 @@ class BaksetItemRemoveQuantityEvent extends BasketEvent {
     required this.items,
   });
 }
+
+// class BasketEmptyEvent extends BasketEvent {
+//   final UserInfo userInfo;
+
+//   BasketEmptyEvent({
+//     required this.userInfo,
+//   });
+// }
