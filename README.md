@@ -1,6 +1,6 @@
 # Тестовое задание.
 Выполнил: Мизюлин Егор Павлович 
-[@egormzln](https://t.me/@egormzln)
+[@egormzln](https://t.me/egormzln)
 
 Релиз версия приложения:
 https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drivesdk
