@@ -1,8 +1,8 @@
-# Тестовое задание.
+# Тестовое задание
 Выполнил: Мизюлин Егор Павлович 
 [@egormzln](https://t.me/egormzln)
 
-Релиз версия приложения:
+Apk для скачивания:
 https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drivesdk
 
 ## Стек:
@@ -17,7 +17,6 @@ https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drive
 ## Возможности запуска:
 ```
 git clone
-
 flutter pub get
 ```
 При наличии эмулятора:
