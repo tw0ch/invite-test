@@ -1,9 +1,9 @@
 # Тестовое задание
-Выполнил: Мизюлин Егор Павлович 
-[@egormzln](https://t.me/egormzln)
+Выполнил: Мизюлин Егор Павлович</br>
+tg: [@egormzln](https://t.me/egormzln)
 
 Apk для скачивания:
-https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drivesdk
+https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drivesdk </br>
 Демонстрация работы: https://drive.google.com/file/d/1He60ji0X_cID7cgCXjr7cKfbfvenvoe_/view?usp=sharing 
 
 ## Стек:
