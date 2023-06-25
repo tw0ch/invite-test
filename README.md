@@ -4,6 +4,7 @@
 
 Apk для скачивания:
 https://drive.google.com/file/d/12TTKSg1M_xgQGL7bL-gKQs4ESed6QKKl/view?usp=drivesdk
+Демонстрация работы: https://drive.google.com/file/d/1He60ji0X_cID7cgCXjr7cKfbfvenvoe_/view?usp=sharing 
 
 ## Стек:
 - Flutter, Dart
